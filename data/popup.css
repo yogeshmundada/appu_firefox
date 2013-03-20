@@ -1,0 +1,45 @@
+
+body {
+    border-style: none; 
+    width: 243px;
+}
+
+#login-name {
+    text-align:center; 
+    font-size: 24px; 
+    font-weight:bold; 
+    color: darkblue;
+}
+
+#anonymous-name {
+    text-align:center; 
+    font-size: 24px; 
+    font-weight:bold; 
+    color: darkblue;
+}
+
+.appu-popup-icon {
+    height: 40px;
+    width: 40px;
+    margin-left: -10px;
+}
+
+.appu-status {
+    font-size: 24px;
+    font-weight: bold;
+    color: darkblue;
+}
+
+.login-in-div {
+    text-align: center;
+    margin-left: -120px
+}
+
+.login-in-anon-div {
+    text-align: center;
+    margin-left: -60px
+}
+
+#real-divider1, #real-divider2 {
+    margin-top: 50px;
+}
