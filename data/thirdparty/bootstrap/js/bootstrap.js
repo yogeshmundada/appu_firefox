@@ -660,6 +660,8 @@
 
       isActive = $parent.hasClass('open')
 
+      console.log("Here here: in toggle: muhaha: " + isActive);
+
       clearMenus()
 
       if (!isActive) {
@@ -739,7 +741,9 @@
   var old = $.fn.dropdown
 
   $.fn.dropdown = function (option) {
+
     return this.each(function () {
+
       var $this = $(this)
         , data = $this.data('dropdown')
       if (!data) $this.data('dropdown', (data = new Dropdown(this)))

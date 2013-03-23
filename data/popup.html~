@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-  <link href="popup.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="popup.css" rel="stylesheet" type="text/css" />
   <link href="thirdparty/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
   <script src="thirdparty/jquery-ui-1.9.1.custom/js/jquery-1.8.2.js"></script>
   <script src="thirdparty/bootstrap/js/bootstrap.min.js"></script>
@@ -9,12 +9,43 @@
 </head>
 <!-- <body style='background-color: transparent; min-width: 50px; max-width: 173px'> -->
 <body>
+
+    <div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    Action
+    <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+    <!-- dropdown menu links -->
+    </ul>
+    </div>
+
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+    <li><a tabindex="-1" href="#">Regular link</a></li>
+    <li class="disabled"><a tabindex="-1" href="#">Disabled link</a></li>
+    <li><a tabindex="-1" href="#">Another link</a></li>
+    </ul>
+
+    <div class="btn-group">
+    <button class="btn">Left</button>
+    <button class="btn">Middle</button>
+    <button class="btn">Right</button>
+    </div>
+
+  <ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu' style='display: block; position: static'>
+    <li><a tabindex="-1" href="#">Action</a></li>
+    <li><a tabindex="-1" href="#">Another action</a></li>
+    <li><a tabindex="-1" href="#">Something else here</a></li>
+    <li class="divider"></li>
+    <li><a tabindex="-1" href="#">Separated link</a></li>
+    </ul>
+
   <div class="row">
     <div class="span4"> 
       <div class="dropdown">
 	<!-- Link or button to toggle dropdown -->
 	<a id="sign-in-menu" class="dropdown-toggle" data-toggle="dropdown" data-target="#" href=""></a>
-	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"  style="min-height: 100px">
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"  style="min-height: 100px;">
 	  <div class="span1">
 	    <img class="appu-popup-icon" src="images/appu_new19_offline.png">
 	  </div>

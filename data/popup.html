@@ -1,8 +1,9 @@
 <!doctype html>
 <html>
 <head>
-  <link href="popup.css" media="screen" rel="stylesheet" type="text/css">
+
   <link href="thirdparty/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="popup.css" rel="stylesheet" type="text/css" />
   <script src="thirdparty/jquery-ui-1.9.1.custom/js/jquery-1.8.2.js"></script>
   <script src="thirdparty/bootstrap/js/bootstrap.min.js"></script>
   <script src="popup.js"></script>
@@ -11,10 +12,10 @@
 <body>
   <div class="row">
     <div class="span4"> 
-      <div class="dropdown">
+      <div id="sign-in-menu-div" class="dropdown1">
 	<!-- Link or button to toggle dropdown -->
-	<a id="sign-in-menu" class="dropdown-toggle" data-toggle="dropdown" data-target="#" href=""></a>
-	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"  style="min-height: 100px">
+	<a id="sign-in-menu" class="dropdown-toggle" data-toggle="dropdown1" data-target="#" href=""></a>
+	<ul id="sign-in-menu-list" class="dropdown-menu" role="menu" aria-labelledby="dLabel"  style="min-height: 100px;">
 	  <div class="span1">
 	    <img class="appu-popup-icon" src="images/appu_new19_offline.png">
 	  </div>
@@ -28,10 +29,10 @@
 	</ul>
       </div>
 
-      <div class="dropdown">
+      <div class="dropdown2">
 	<!-- Link or button to toggle dropdown -->
-	<a id="sign-out-menu" class="dropdown-toggle" data-toggle="dropdown" data-target="#" href=""></a>
-	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+	<a id="sign-out-menu" class="dropdown-toggle" data-toggle="dropdown2" data-target="#" href=""></a>
+	<ul id="sign-out-menu-list" class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 	  <div class="span1">
 	    <img id="appu-signedin-menu-icon" class="appu-popup-icon" src="images/appu_new128.png">
 	  </div>

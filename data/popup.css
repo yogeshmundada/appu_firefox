@@ -1,7 +1,9 @@
 
 body {
     border-style: none; 
-    width: 243px;
+    width: 500px;
+    height: 500px;
+    background-color: yellow;
 }
 
 #login-name {
@@ -42,4 +44,9 @@ body {
 
 #real-divider1, #real-divider2 {
     margin-top: 50px;
+}
+
+.dropdown-menu-displayed {
+    display: block; 
+    position: static;
 }
