@@ -660,8 +660,6 @@
 
       isActive = $parent.hasClass('open')
 
-      console.log("Here here: in toggle: muhaha: " + isActive);
-
       clearMenus()
 
       if (!isActive) {

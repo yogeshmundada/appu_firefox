@@ -1,0 +1,52 @@
+{
+  "author": {
+    "name": "Oncle Tom",
+    "email": "thomas@oncle-tom.net",
+    "url": "http://case.oncle-tom.net"
+  },
+  "name": "tldjs",
+  "description": "Handful API to do stuff with domain names and URIs: validity, public etc.",
+  "version": "1.1.2",
+  "homepage": "https://github.com/oncletom/tld.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/oncletom/tld.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oncletom/tld.js/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --ui tdd",
+    "build": "grunt update",
+    "prepublish": "grunt update"
+  },
+  "engines": {
+    "node": "0.6.x || 0.8.x"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "request": "~2.12.0",
+    "mocha": "~1.7.4",
+    "expect.js": "~0.2.0"
+  },
+  "keywords": [
+    "tld",
+    "sld",
+    "domain",
+    "travis",
+    "uri",
+    "url",
+    "domain name",
+    "subdomain",
+    "public suffix"
+  ],
+  "readme": "tld.js\n======\n\n[![Build Status](https://secure.travis-ci.org/oncletom/tld.js.png?branch=master)](http://travis-ci.org/oncletom/tld.js)\n\nHandful API to do stuff with domain names and URIs: validity, public etc.\n\nIts main purpose is to check if a domain name is valid upon. 2 constraints:\n* an up-to-date TLDs database\n* must work in node.js and the browser\n\nIt is based on the [public suffix list](http://publicsuffix.org/list/) provided by Mozilla.\nThanks Mozilla!\n\n## Usage\n\n*tld.js* is available under [NPM](http://npmjs.org/) registry.\n\n```bash\nnpm install tldjs --save --production\n```\n\nAnd to include it in any relevant script:\n\n```javascript\nvar tld = require('tldjs');\n```\n\n### getDomain()\n\nReturns the fully qualified domain from a host string.\n\n```javascript\ntld.getDomain('google.com'); // returns `google.com`\ntld.getDomain('fr.google.com'); // returns `google.com`\ntld.getDomain('fr.google.google'); // returns `google.google`\ntld.getDomain('foo.google.co.uk'); // returns `google.co.uk`\ntld.getDomain('t.co'); // returns `t.co`\ntld.getDomain('fr.t.co'); // returns `t.co`\n```\n\n### tldExists()\n\nChecks if the TLD is valid for a given host.\n\n```javascript\ntld.tldExists('google.com'); // returns `true`\ntld.tldExists('google.google'); // returns `false` (not an explicit registered TLD)\ntld.tldExists('com'); // returns `true`\ntld.tldExists('uk'); // returns `true`\ntld.tldExists('co.uk'); // returns `true` (because `uk` is a valid TLD)\ntld.tldExists('amazon.fancy.uk'); // returns `true` (still because `uk` is a valid TLD)\ntld.tldExists('amazon.co.uk'); // returns `true` (still because `uk` is a valid TLD)\n```\n\n### getSubdomain()\n\nReturns the complete subdomain for a given host.\n\n```javascript\ntld.getSubdomain('google.com'); // returns ``\ntld.getSubdomain('fr.google.com'); // returns `fr`\ntld.getSubdomain('google.co.uk'); // returns ``\ntld.getSubdomain('foo.google.co.uk'); // returns `foo`\ntld.getSubdomain('moar.foo.google.co.uk'); // returns `moar.foo`\ntld.getSubdomain('t.co'); // returns ``\ntld.getSubdomain('fr.t.co'); // returns `fr`\n```\n\n### isValid()\n\nChecks if the host string is valid.\nIt does not check if the *tld* exists.\n\n```javascript\ntld.isValid('google.com'); // returns `true`\ntld.isValid('.google.com'); // returns `false`\ntld.isValid('my.fake.domain'); // returns `true`\ntld.isValid('localhost'); // returns `false`\n```\n\n## Updating TLDs List\n\nMany libraries offer a list of TLDs. But, are they up-to-date? And how to update them?\n\nHopefully for you, even if I'm flying over the world, if I've lost my Internet connection or even if\nyou do manage your own list, you can update it by yourself, painlessly.\n\nYou may have installed the package with its `devDependencies` with:\n\n```bash\nnpm install tldjs --save\n```\n\nIf you did not install with the `--production` flag, then it's okay.\n\n[grunt](http://gruntjs.com/) is mandatory to build and update rules. If it's not installed globally, then do so:\n\n```bash\nnpm install -g grunt\n```\n\nHow? By typing this in your console\n\n```bash\nnpm run-script build\n```\n\nA fresh copy will be located in `src/rules.json`.\n\n\n## Contributing\n\nProvide a pull request (with tested code) to include your work in this main project.\nIssues may be awaiting for help so feel free to give a hand, with code or ideas.",
+  "readmeFilename": "README.md",
+  "_id": "tldjs@1.1.2",
+  "dist": {
+    "shasum": "363acc0ac8acba96fa8030bd05145ab7a76b649d"
+  },
+  "_from": "tldjs@",
+  "_resolved": "https://registry.npmjs.org/tldjs/-/tldjs-1.1.2.tgz"
+}

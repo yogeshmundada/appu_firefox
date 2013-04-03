@@ -1,9 +1,9 @@
 {
-    "name": "appu", 
-    "license": "MPL 2.0", 
-    "author": "", 
-    "version": "0.1", 
-    "fullName": "appu", 
-    "id": "jid1-HMnrXQyiYtVBcQ", 
-    "description": "a basic add-on"
+  "name": "appu_new",
+  "fullName": "appu_new",
+  "id": "jid1-C2FwyBmLjXXBTg",
+  "description": "a basic add-on",
+  "author": "",
+  "license": "MPL 2.0",
+  "version": "0.1"
 }

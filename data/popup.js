@@ -21,7 +21,8 @@ function read_minutes() {
 }
 
 function disable() {
-    $('.dropdown-toggle').dropdown('toggle');
+    //$('#sign-in-menu-list').hide();
+    $('#sign-out-menu').dropdown('toggle');
     $('#enter-minutes').show();
     //$('body').css({'width': '220px', 'min-height': '100px'});
     $('#input-minutes').focus();
@@ -86,28 +87,54 @@ function send_feedback() {
 }
 
 function show_menu(response) {
-    console.log("here here 1");
+    //console.log("here here 1");
     //$('body').css('background-color', 'green');
 
     if (response.status == "not-signed-in") {
 	//$('#sign-in-menu-list').addClass('.dropdown-menu-displayed');
-	$('#sign-in-menu').dropdown('toggle');
+	//$('#sign-in-menu').dropdown('toggle');
 	
 // 	var classList = $('#sign-in-menu-div').attr('class').split(/\s+/);
 // 	$.each( classList, function(index, item){
 // 		console.log("Here here: Class: " + item);
 // 	    });
+//	$('#sign-in-menu-list').css('display', 'block');
+//	$('#sign-in-menu-list').css('position', 'static');
 
-	console.log("here here 2: " + $('#sign-in-menu').dropdown);
+	//$('#sign-in-menu-list').show();
+
+	//console.log("Here here: Sending message displayed");
+
+	m = {
+	    height : $('#sign-in-menu-list').height(),
+	    width: $('#sign-in-menu-list').width()
+	}
+
+	self.port.emit("displayed", m);
+
+	bg_response = response;
+	if (bg_response.appu_status == 'disabled') {
+	    //$("#appu-signedin-menu-icon").attr("src", "images/appu_new19_offline.png");
+	}
+
+	//console.log("here here 2: " + $('#sign-in-menu').dropdown);
     }
     if (response.status == "signed-in") {
 	$('#login-name').html(" " + response.login_name);
 	$('body').css('background-color', 'green');
 
-	$('#sign-out-menu-list').css('display', 'block');
-	$('#sign-out-menu-list').css('position', 'static');
+	//$('#sign-out-menu-list').css('display', 'block');
+	//$('#sign-out-menu-list').css('position', 'static');
+	//$('#sign-out-menu-list').show();
 
-	console.log("Here here: Sending message displayed");
+	//console.log("Here here: Sending message displayed");
+	hook_ups();
+
+	$('#sign-out-menu').dropdown('toggle');
+
+	$('#sign-out-menu-list').css("margin-top", "-340px");
+	//console.log("Here here: Margin top value is: " + $('#sign-out-menu-list').css("margin-top"));
+	$('#sign-out-menu').css("background-color", "orange");
 
 	m = {
 	    height : $('#sign-out-menu-list').height(),
@@ -116,24 +143,18 @@ function show_menu(response) {
 
 	self.port.emit("displayed", m);
 
-	//$('#sign-out-menu').dropdown('toggle');
+
 	bg_response = response;
 	if (bg_response.appu_status == 'disabled') {
 	    $("#appu-signedin-menu-icon").attr("src", "images/appu_new19_offline.png");
 	}
-	console.log("here here 3");
+	//console.log("here here 3");
     }
-    console.log("here here 4");
+    //console.log("here here 4");
 }
 
-self.port.on("resized", function() {
-	console.log("Panel resized, isShowing: " + self.isShowing123);
-	console.log("Panel resized, height: " + $('body').height() + ", width: " + $('body').height());
-    })
-
-document.addEventListener('DOMContentLoaded', function () {
-
-	console.log("Here here: contentloaded");
+function hook_ups() {
+    //console.log("Here here: contentloaded");
     $("#disable").on("click", function() { disable();});
     $('#disable-submit').on('click', read_minutes);
 
@@ -146,6 +167,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     $("#sign-in").on("click", sign_in); 
     $("#sign-out").on("click", sign_out); 
+}
+
+
+self.port.on("resized", function() {
+	//console.log("Here here: Panel resized, isShowing: " + self.isShowing123);
+	//console.log("Here here: Panel resized, height: " + $('body').height() + ", width: " + $('body').height());
+    })
+
+window.addEventListener('DOMContentLoaded', function () {
 });
 
 $(document).ready(function() {
