@@ -49,9 +49,8 @@ function report() {
 }
 
 function sign_in() {
-    openTab(chrome.extension.getURL('sign_in.html'));
-    self.close();
-    return false;
+    console.log("Here here: Sign-in was clicked on");
+    self.port.emit("open-sign-in");
 }
 
 function sign_out() {
@@ -87,12 +86,12 @@ function send_feedback() {
 }
 
 function show_menu(response) {
-    //console.log("here here 1");
+    console.log("Here here: show_menu(): " + response.status);
     //$('body').css('background-color', 'green');
 
     if (response.status == "not-signed-in") {
 	//$('#sign-in-menu-list').addClass('.dropdown-menu-displayed');
-	//$('#sign-in-menu').dropdown('toggle');
+	$('#sign-in-menu').dropdown('toggle');
 	
 // 	var classList = $('#sign-in-menu-div').attr('class').split(/\s+/);
 // 	$.each( classList, function(index, item){
@@ -116,7 +115,6 @@ function show_menu(response) {
 	if (bg_response.appu_status == 'disabled') {
 	    //$("#appu-signedin-menu-icon").attr("src", "images/appu_new19_offline.png");
 	}
-
 	//console.log("here here 2: " + $('#sign-in-menu').dropdown);
     }
     if (response.status == "signed-in") {
@@ -128,7 +126,6 @@ function show_menu(response) {
 	//$('#sign-out-menu-list').show();
 
 	//console.log("Here here: Sending message displayed");
-	hook_ups();
 
 	$('#sign-out-menu').dropdown('toggle');
 
@@ -173,34 +170,41 @@ function hook_ups() {
 self.port.on("resized", function() {
 	//console.log("Here here: Panel resized, isShowing: " + self.isShowing123);
 	//console.log("Here here: Panel resized, height: " + $('body').height() + ", width: " + $('body').height());
-    })
-
-window.addEventListener('DOMContentLoaded', function () {
-});
-
-$(document).ready(function() {
-    $('#disable').tooltip({
-	'title' : 'Disable Appu across all tabs',
-	'placement' : 'up',
-	'delay': { 'show': 500, 'hide': 0 },
     });
 
-    $('#enable').tooltip({
-	'title' : 'Enable Appu across all tabs',
-	'placement' : 'up',
-	'delay': { 'show': 500, 'hide': 0 },
-    });
 
-    $('#enter-minutes').hide();
+function activate_menu() {
+	$('#disable').tooltip({
+		'title' : 'Disable Appu across all tabs',
+		    'placement' : 'up',
+		    'delay': { 'show': 500, 'hide': 0 },
+		    });
+	
+	$('#enable').tooltip({
+		'title' : 'Enable Appu across all tabs',
+		    'placement' : 'up',
+		    'delay': { 'show': 500, 'hide': 0 },
+		    });
+	
+	$('#enter-minutes').hide();
 
-//     chrome.extension.sendMessage("", {
-// 	'type' : 'get-signin-status',
-//     }, show_menu);
+	console.log("Here here: Sending message to query signin-status");
+	self.port.emit("get-signin-status", {
+		'type' : 'get-signin-status',
+		    });
+	
+// 	show_menu({
+// 		status : "signed-in"
+// 		    });
+	
+	$('body').css({'max-width': '200px', 'max-height': '200px'});
+}
 
-    show_menu({
-	    status : "signed-in"
-	});
 
-    $('body').css({'max-width': '200px', 'max-height': '200px'});
-});
+function register_message_listeners() {
+    self.port.on("menu-active", activate_menu);
+    self.port.on("signin-status-response", show_menu);
+}
 
+register_message_listeners();
+hook_ups();
