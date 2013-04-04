@@ -1,4 +1,5 @@
 
+
 function check_for_enter(e) {
     if (e.which == 13) {
 	if (e.data.type == 'login') {
@@ -104,17 +105,19 @@ function register_message_listeners() {
     self.port.on("account-failure", handle_account_failure);
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-	console.log("Here here: In sign_in.js, domcontentloaded event");
-	$("#login-submit").on("click", login);
-	$('#create-account-submit').on('click', create_account);
-	$('body .login-form').on('keypress', 'input:password, input:text', 
-				 {'type': 'login'}, check_for_enter);
-	$('body .create-account-form').on('keypress', 'input:password, input:text', 
-					  {'type': 'create-account'}, check_for_enter);
-});
+// document.addEventListener('DOMContentLoaded', function () {
+// 	console.log("Here here: In sign_in.js, domcontentloaded event");
+// 	$("#login-submit").on("click", login);
+// 	$('#create-account-submit').on('click', create_account);
+// 	$('body .login-form').on('keypress', 'input:password, input:text', 
+// 				 {'type': 'login'}, check_for_enter);
+// 	$('body .create-account-form').on('keypress', 'input:password, input:text', 
+// 					  {'type': 'create-account'}, check_for_enter);
+// });
 
 register_message_listeners();
 
 self.port.emit('get-version');
 self.port.emit('get-signin-status');
+
+console.log("Here here: XXXXXXXXXXXX in sign_in.js");
