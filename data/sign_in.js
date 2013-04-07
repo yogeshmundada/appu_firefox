@@ -103,6 +103,19 @@ function register_message_listeners() {
 
     self.port.on("account-success", handle_account_success);
     self.port.on("account-failure", handle_account_failure);
+
+    console.log("Here here: Registered handle_sign_in_document_ready");
+    self.port.on("sign-in-document-ready", handle_sign_in_document_ready);
+}
+
+function handle_sign_in_document_ready() {
+	console.log("Here here: In sign_in.js, domcontentloaded event");
+	$("#login-submit").on("click", login);
+	$('#create-account-submit').on('click', create_account);
+	$('body .login-form').on('keypress', 'input:password, input:text', 
+				 {'type': 'login'}, check_for_enter);
+	$('body .create-account-form').on('keypress', 'input:password, input:text', 
+					  {'type': 'create-account'}, check_for_enter);
 }
 
 // document.addEventListener('DOMContentLoaded', function () {
@@ -119,5 +132,3 @@ register_message_listeners();
 
 self.port.emit('get-version');
 self.port.emit('get-signin-status');
-
-console.log("Here here: XXXXXXXXXXXX in sign_in.js");
