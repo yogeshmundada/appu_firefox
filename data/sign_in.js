@@ -12,6 +12,7 @@ function check_for_enter(e) {
 }
 
 function handle_current_user(response) {
+    console.log("Here here: In handling current USER");
     if (response.login_name != "default") {
 	$(".login-form").hide();
 	$(".create-account-form").hide();
@@ -29,6 +30,9 @@ function show_version(response) {
 function login() {
     var username = $.trim($("#login-username").val());
     var password = $.trim($("#login-password").val());
+
+    console.log("Here here: Login is called");
+
     if (username != '' && password != '') {
 	chrome.extension.sendMessage("", {
 	    'type' : 'sign-in',
@@ -109,13 +113,16 @@ function register_message_listeners() {
 }
 
 function handle_sign_in_document_ready() {
-	console.log("Here here: In sign_in.js, domcontentloaded event");
 	$("#login-submit").on("click", login);
 	$('#create-account-submit').on('click', create_account);
 	$('body .login-form').on('keypress', 'input:password, input:text', 
 				 {'type': 'login'}, check_for_enter);
 	$('body .create-account-form').on('keypress', 'input:password, input:text', 
 					  {'type': 'create-account'}, check_for_enter);
+}
+
+function test_setTimeout() {
+    console.log("Here here: setTimeout is working correctly");
 }
 
 // document.addEventListener('DOMContentLoaded', function () {
@@ -129,6 +136,9 @@ function handle_sign_in_document_ready() {
 // });
 
 register_message_listeners();
+handle_sign_in_document_ready();
+
+window.setTimeout(test_setTimeout, 10000);
 
 self.port.emit('get-version');
 self.port.emit('get-signin-status');
