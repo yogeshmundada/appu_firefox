@@ -1,0 +1,67 @@
+cfx run
+Using binary at '/Applications/Firefox.app/Contents/MacOS/firefox-bin'.
+Using profile at '/var/folders/9y/k3d74txd5jq1_w2qmb3fp2nw0000gn/T/tmpnKmhft.mozrunner'.
+2013-04-09 18:16:19.630 firefox-bin[23517:707] invalid drawable
+info: appu_new: Loading extension for the first time. Initializing extension data
+info: appu_new: vault_init(): Initializing missing properties from last release
+info: appu_new: vault_init(): Updated GUID in vault: 89eb99ee-296d-4157-be57-a70bcb97d05a
+info: appu_new: vault_init(): Updated SALT TABLE in vault
+info: appu_new: vault_init(): Updated INITIALIZED in vault
+info: appu_new: vault_init(): Updated TOTAL_SITE_LIST in vault
+info: appu_new: vault_init(): Updated PASSWORD_HASHES in vault
+info: appu_new: vault_init(): Updated PAST_REPORTS in vault
+info: appu_new: vault_init(): Updated DEVICEID in vault: 85799921-c17f-4adc-ae52-f3d20921f0d6
+info: appu_new: vault_init(): Updated CURRENT_VERSION in vault: 0.3.95
+info: appu_new: vault_init(): Updated STATUS in vault
+info: appu_new: vault_init(): Updated DISABLE_PERIOD in vault
+info: appu_new: vault_init(): Updated REPORTING_HOUR in vault
+info: appu_new: Report will be sent everyday at 17:19
+info: appu_new: Next scheduled reporting is: Fri Apr 12 2013 17:19:00 GMT-0400 (EDT)
+info: appu_new: vault_init(): Updated NEXT_REPORTING_TIME in vault
+info: appu_new: vault_init(): Updated REPORT_REMINDER_TIME in vault
+info: appu_new: vault_init(): Updated REPORTID in vault
+info: appu_new: vault_init(): Updated BLACKLIST in vault
+info: appu_new: vault_init(): Updated DONTBUGLIST in vault
+info: appu_new: vault_init(): Updated REPORT_SETTING in vault
+info: appu_new: Here here: In initialize_report, pii_vault: {"options":{},"config":{}}
+info: appu_new: Here here: Error: resource://gre/modules/XPIProvider.jsm -> jar:file:///var/folders/9y/k3d74txd5jq1_w2qmb3fp2nw0000gn/T/tmpnKmhft.mozrunner/extensions/jid1-C2FwyBmLjXXBTg@jetpack.xpi!/bootstrap.js -> resource://jid1-c2fwybmljxxbtg-at-jetpack/addon-sdk/lib/toolkit/loader.js -> resource://jid1-c2fwybmljxxbtg-at-jetpack/appu_new/lib/update_stats.js
+info: appu_new: Here here: environ is: {"platform":{"name":"macintosh","version":"10.8"},"browser":{"flashVersion":"11.5.502","mozilla":5,"branchTag":"20.0","engine":"gecko","engineVersion":20100101,"name":"firefox","version":"20.0"}}
+info: appu_new: Here here: NEW environ is: {"platform":{"name":"macintosh","version":"10.8"},"browser":{"flashVersion":"11.5.502","mozilla":5,"branchTag":"20.0","engine":"gecko","engineVersion":20100101,"name":"firefox","version":"20.0"}}
+info: appu_new: vault_init(): Updated CURRENT_REPORT in vault
+info: appu_new: Here here: Flushing pii_vault:current_report: 1
+info: appu_new: Appu Error: vault_write(), Value is empty for key: current_report:reportid
+info: appu_new: Here here: ZZZZ in util, pii_vault: {"options":{},"config":{}}
+error: appu_new: An exception occurred.
+TypeError: pii_vault.current_report is undefined
+resource://jid1-c2fwybmljxxbtg-at-jetpack/appu_new/lib/util.js 32
+Traceback (most recent call last):
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/addon-sdk/lib/sdk/timers.js", line 31, in notify
+    callback.apply(null, args);
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/addon-sdk/lib/sdk/content/worker.js", line 111, in onContentEvent/<
+    self._emit.apply(self, JSON.parse(args));
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/addon-sdk/lib/sdk/deprecated/events.js", line 123, in _emit
+    return this._emitOnObject.apply(this, args);
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/addon-sdk/lib/sdk/deprecated/events.js", line 153, in _emitOnObject
+    listener.apply(targetObj, params);
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/addon-sdk/lib/sdk/content/worker.js", line 230, in portEmit
+    self._addonWorker._onContentScriptEvent.apply(self._addonWorker, arguments);
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/addon-sdk/lib/sdk/content/worker.js", line 603, in _onContentScriptEvent
+    this._port._emit.apply(this._port, arguments);
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/addon-sdk/lib/sdk/deprecated/events.js", line 123, in _emit
+    return this._emitOnObject.apply(this, args);
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/addon-sdk/lib/sdk/deprecated/events.js", line 153, in _emitOnObject
+    listener.apply(targetObj, params);
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/appu_new/lib/main.js", line 168, in 
+    vault.vault_init();
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/appu_new/lib/vault.js", line 291, in vault_init
+    flush_current_report();
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/appu_new/lib/vault.js", line 388, in flush_current_report
+    vault_write(write_key, pii_vault.current_report[on_disk_values.current_report[j]]);
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/appu_new/lib/vault.js", line 381, in vault_write
+    print_appu_error("Appu Error: vault_write(), Value is empty for key: " + key);
+  File "resource://jid1-c2fwybmljxxbtg-at-jetpack/appu_new/lib/util.js", line 32, in print_appu_error
+    pii_vault.current_report.appu_errors.push(err_str);
+info: appu_new: Here here: In vault:my_set_current_report()
+info: appu_new: Here here: In util:my_get_current_report(): {"options":{},"config":{}}
+Total time: 4.890223 seconds
+Program terminated successfully.
