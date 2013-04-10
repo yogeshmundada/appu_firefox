@@ -34,11 +34,11 @@ function login() {
     console.log("Here here: Login is called");
 
     if (username != '' && password != '') {
-	chrome.extension.sendMessage("", {
+	self.port.emit('sign-in',  {
 	    'type' : 'sign-in',
 	    'username' : username,
 	    'password' : password,
-	});
+		});
     }
     else {
 	$("#top-status").addClass("text-error");
@@ -110,6 +110,10 @@ function register_message_listeners() {
 
     console.log("Here here: Registered handle_sign_in_document_ready");
     self.port.on("sign-in-document-ready", handle_sign_in_document_ready);
+
+    self.port.on("this-is-my-test-message", function() {
+	    console.log("Here here: SUCCESS, received this-is-my-test-message");
+	});
 }
 
 function handle_sign_in_document_ready() {
