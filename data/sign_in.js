@@ -1,4 +1,10 @@
 
+function my_log(msg, error) {
+    var ln = error.lineNumber;
+    var fn = error.fileName.split('->').slice(-1)[0].split('/').splice(-1)[0];
+    console.log(fn + "," + ln + ": " + msg);
+}
+
 
 function check_for_enter(e) {
     if (e.which == 13) {
@@ -12,7 +18,7 @@ function check_for_enter(e) {
 }
 
 function handle_current_user(response) {
-    console.log("Here here: In handling current USER");
+    my_log("Here here: In handling current USER", new Error);
     if (response.login_name != "default") {
 	$(".login-form").hide();
 	$(".create-account-form").hide();
@@ -31,7 +37,7 @@ function login() {
     var username = $.trim($("#login-username").val());
     var password = $.trim($("#login-password").val());
 
-    console.log("Here here: Login is called");
+    my_log("Here here: Login is called", new Error);
 
     if (username != '' && password != '') {
 	self.port.emit('sign-in',  {
@@ -53,15 +59,15 @@ function create_account() {
 
     if (username != '' && password != '') {
 	if (password == confirm_password) {
-	    chrome.extension.sendMessage("", {
-		'type' : 'create-account',
-		'username' : username,
-		'password' : password,
-	    });
+	    self.port.emit('create-account',  {
+		    'type' : 'create-account',
+			'username' : username,
+			'password' : password,
+			});
 	}
 	else {
 	    $("#top-status").addClass("text-error");
-	    $("#top-status").text("Password and Confirm-password does not match");
+	    $("#top-status").text("Password and Confirm-password do not match");
 	}
     }
     else {
@@ -70,12 +76,12 @@ function create_account() {
     }
 }
 
-function handle_account_failure() {
+function handle_account_failure(message) {
 	$("#top-status").addClass("text-error");
 	$("#top-status").text(message.desc);
 }
 
-function handle_account_success() {
+function handle_account_success(message) {
     $(".login-form").hide();
     $(".create-account-form").hide();
     $("#username-info").hide();
@@ -84,12 +90,12 @@ function handle_account_success() {
     $("#top-status").text(message.desc);
 }
 
-function handle_login_failure() {
+function handle_login_failure(message) {
     $("#top-status").addClass("text-error");
     $("#top-status").text(message.desc);
 }
 
-function handle_login_success() {
+function handle_login_success(message) {
     $(".login-form").hide();
     $(".create-account-form").hide();
     $("#username-info").hide();
@@ -108,11 +114,11 @@ function register_message_listeners() {
     self.port.on("account-success", handle_account_success);
     self.port.on("account-failure", handle_account_failure);
 
-    console.log("Here here: Registered handle_sign_in_document_ready");
+    my_log("Here here: Registered handle_sign_in_document_ready", new Error);
     self.port.on("sign-in-document-ready", handle_sign_in_document_ready);
 
     self.port.on("this-is-my-test-message", function() {
-	    console.log("Here here: SUCCESS, received this-is-my-test-message");
+	    my_log("Here here: SUCCESS, received this-is-my-test-message", new Error);
 	});
 }
 
@@ -125,24 +131,8 @@ function handle_sign_in_document_ready() {
 					  {'type': 'create-account'}, check_for_enter);
 }
 
-function test_setTimeout() {
-    console.log("Here here: setTimeout is working correctly");
-}
-
-// document.addEventListener('DOMContentLoaded', function () {
-// 	console.log("Here here: In sign_in.js, domcontentloaded event");
-// 	$("#login-submit").on("click", login);
-// 	$('#create-account-submit').on('click', create_account);
-// 	$('body .login-form').on('keypress', 'input:password, input:text', 
-// 				 {'type': 'login'}, check_for_enter);
-// 	$('body .create-account-form').on('keypress', 'input:password, input:text', 
-// 					  {'type': 'create-account'}, check_for_enter);
-// });
-
 register_message_listeners();
 handle_sign_in_document_ready();
-
-window.setTimeout(test_setTimeout, 10000);
 
 self.port.emit('get-version');
 self.port.emit('get-signin-status');

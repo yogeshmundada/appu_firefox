@@ -1,10 +1,16 @@
 
+function my_log(msg, error) {
+    var ln = error.lineNumber;
+    var fn = error.fileName.split('->').slice(-1)[0].split('/').splice(-1)[0];
+    console.log(fn + "," + ln + ": " + msg);
+}
+
 var bg_response = undefined;
 
 function read_minutes() {
     var minutes = parseFloat($('#input-minutes').val());
     if (minutes == NaN || (minutes % 1 != 0)) {
-	console.log('Enter only valid minutes');
+	my_log('Enter only valid minutes', new Error);
 	$("#error-message").text('Please enter a valid number');
 	$("#accept-minutes").addClass('error');
     }
@@ -49,16 +55,13 @@ function report() {
 }
 
 function sign_in() {
-    console.log("Here here: Sign-in was clicked on");
+    my_log("Here here: Sign-in was clicked on", new Error);
     self.port.emit("open-sign-in");
 }
 
 function sign_out() {
-    chrome.extension.sendMessage("", {
-	'type' : 'sign-out',
-    });
-    self.close();
-    return false;
+    my_log("Here here: Sign-out was clicked on", new Error);
+    self.port.emit("sign-out");
 }
 
 function options() {
@@ -86,7 +89,7 @@ function send_feedback() {
 }
 
 function show_menu(response) {
-    console.log("Here here: show_menu(): " + response.status);
+    my_log("Here here: show_menu(): " + response.status, new Error);
     //$('body').css('background-color', 'green');
 
     if (response.status == "not-signed-in") {
@@ -95,14 +98,14 @@ function show_menu(response) {
 	
 // 	var classList = $('#sign-in-menu-div').attr('class').split(/\s+/);
 // 	$.each( classList, function(index, item){
-// 		console.log("Here here: Class: " + item);
+// 		my_log("Here here: Class: " + item);
 // 	    });
 //	$('#sign-in-menu-list').css('display', 'block');
 //	$('#sign-in-menu-list').css('position', 'static');
 
 	//$('#sign-in-menu-list').show();
 
-	//console.log("Here here: Sending message displayed");
+	//my_log("Here here: Sending message displayed");
 
 	m = {
 	    height : $('#sign-in-menu-list').height(),
@@ -115,7 +118,7 @@ function show_menu(response) {
 	if (bg_response.appu_status == 'disabled') {
 	    //$("#appu-signedin-menu-icon").attr("src", "images/appu_new19_offline.png");
 	}
-	//console.log("here here 2: " + $('#sign-in-menu').dropdown);
+	//my_log("here here 2: " + $('#sign-in-menu').dropdown);
     }
     if (response.status == "signed-in") {
 	$('#login-name').html(" " + response.login_name);
@@ -125,12 +128,12 @@ function show_menu(response) {
 	//$('#sign-out-menu-list').css('position', 'static');
 	//$('#sign-out-menu-list').show();
 
-	//console.log("Here here: Sending message displayed");
+	//my_log("Here here: Sending message displayed");
 
 	$('#sign-out-menu').dropdown('toggle');
 
 	$('#sign-out-menu-list').css("margin-top", "-340px");
-	//console.log("Here here: Margin top value is: " + $('#sign-out-menu-list').css("margin-top"));
+	//my_log("Here here: Margin top value is: " + $('#sign-out-menu-list').css("margin-top"));
 	$('#sign-out-menu').css("background-color", "orange");
 
 	m = {
@@ -145,13 +148,13 @@ function show_menu(response) {
 	if (bg_response.appu_status == 'disabled') {
 	    $("#appu-signedin-menu-icon").attr("src", "images/appu_new19_offline.png");
 	}
-	//console.log("here here 3");
+	//my_log("here here 3");
     }
-    //console.log("here here 4");
+    //my_log("here here 4");
 }
 
 function hook_ups() {
-    //console.log("Here here: contentloaded");
+    //my_log("Here here: contentloaded");
     $("#disable").on("click", function() { disable();});
     $('#disable-submit').on('click', read_minutes);
 
@@ -168,8 +171,8 @@ function hook_ups() {
 
 
 self.port.on("resized", function() {
-	//console.log("Here here: Panel resized, isShowing: " + self.isShowing123);
-	//console.log("Here here: Panel resized, height: " + $('body').height() + ", width: " + $('body').height());
+	//my_log("Here here: Panel resized, isShowing: " + self.isShowing123);
+	//my_log("Here here: Panel resized, height: " + $('body').height() + ", width: " + $('body').height());
     });
 
 
@@ -188,7 +191,7 @@ function activate_menu() {
 	
 	$('#enter-minutes').hide();
 
-	console.log("Here here: Sending message to query signin-status");
+	my_log("Here here: Sending message to query signin-status", new Error);
 	self.port.emit("get-signin-status", {
 		'type' : 'get-signin-status',
 		    });
