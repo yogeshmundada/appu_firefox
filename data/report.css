@@ -1,0 +1,144 @@
+
+/* #section-nav {padding-top: 70px;} */
+/* #appu-report {padding-top: 30px;} */
+#version-info {font-size: 20px; margin-top: -8px; text-align: right;}
+#name-and-version {text-align: center;}
+body {padding-top: 90px;}
+.daily-report {text-align: center}
+#report-date-range {margin-top: -14px;}
+
+table.table thead .sorting,
+table.table thead .sorting_asc,
+table.table thead .sorting_desc,
+table.table thead .sorting_asc_disabled,
+table.table thead .sorting_desc_disabled {
+    cursor: pointer;
+    *cursor: hand;
+}
+ 
+table.table thead .sorting { background: url('images/sort_both.png') no-repeat center right; }
+table.table thead .sorting_asc { background: url('images/sort_asc.png') no-repeat center right; }
+table.table thead .sorting_desc { background: url('images/sort_desc.png') no-repeat center right; }
+ 
+table.table thead .sorting_asc_disabled { background: url('images/sort_asc_disabled.png') no-repeat center right; }
+table.table thead .sorting_desc_disabled { 
+    background: url('images/sort_desc_disabled.png') no-repeat center right; 
+}
+
+table tbody tr td {
+    text-align: center;
+}
+
+
+#per-site-account-data-table td:nth-child(1) {
+    text-align: left;
+}
+
+#password-stats-table td:nth-child(2) {
+    text-align: left;
+}
+
+#pi-metadata td:nth-child(1) {
+    text-align: left;
+}
+
+#pi-metadata td:nth-child(3) {
+    text-align: left;
+}
+
+div.dataTables_length label {
+    width: 460px;
+    float: left;
+    text-align: left;
+}
+ 
+div.dataTables_length select {
+    width: 75px;
+}
+ 
+div.dataTables_filter label {
+    float: right;
+    width: 460px;
+}
+ 
+div.dataTables_info {
+    padding-top: 8px;
+}
+ 
+div.dataTables_paginate {
+    float: right;
+    margin: 0;
+}
+ 
+table {
+    margin: 1em 0;
+    clear: both;
+}
+
+#per-site-account-data-table-modal {
+    width: 100%;
+    max-height: 100%;
+    margin: 0 0 0 -50%;
+}
+
+#per-site-account-data-table-modal-body {
+    max-height: 90%;
+}
+
+.report-time, .report-time-add-info {
+    font-size: 12px;
+}
+
+.report-time-1 {
+    font-size: 12px;
+}
+
+body section {
+    font-size: 16px;
+}
+
+.loose-info-box {
+    background-color: lightgrey;
+    border-radius: 10px;
+    padding: 0px 0px 10px 30px;
+    border-width: 2px;
+    border-style: solid;
+    margin-top: 20px;   
+}
+
+.icon-question-sign {
+    margin-left: 2px;
+}
+
+.loose-info-box .loose-info-value {
+    margin-left: 10px;
+}
+
+.loose-info-box h3{
+    text-decoration: underline;
+}
+
+.loose-info {
+    margin-top: 10px;
+}
+
+.code-red {
+    background-color: red;	  
+}
+
+.code-orange {
+    background-color: orange;	  
+}
+
+.code-yellow {
+    background-color: yellow;	  
+}
+
+.pi-value {
+    color: blue;
+    font-size: 18px;
+}
+
+.report-delivered {
+    background-color: azure;
+}
