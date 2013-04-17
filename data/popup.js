@@ -20,8 +20,8 @@ function read_minutes() {
 	message.type = "status_change";
 	message.status = "disable";
 	message.minutes = minutes;
-	chrome.extension.sendMessage("", message, function() {});
-	self.close();
+
+	self.port.emit("status_change", message);
     }
     return false;
 }
@@ -38,20 +38,12 @@ function enable() {
     message = {};
     message.type = "status_change";
     message.status = "enable";
-    chrome.extension.sendMessage("", message, function() {});
-    self.close();
-    return false;
-}
-
-function openTab(url) {
-    chrome.tabs.create({ url: url });
-    window.close();
+    self.port.emit("status_change", message);
 }
 
 function report() {
-    openTab(chrome.extension.getURL('report.html'));
-    self.close();
-    return false;
+    my_log("Here here: 'Check Report' was clicked on", new Error);
+    self.port.emit("open-report");
 }
 
 function sign_in() {
@@ -65,47 +57,30 @@ function sign_out() {
 }
 
 function options() {
-    openTab(chrome.extension.getURL('options.html'));
-    self.close();
-    return false;
+    my_log("Here here: 'Options' was clicked on", new Error);
+    self.port.emit("open-options");
 }
 
 function footprint() {
-    openTab(chrome.extension.getURL('myfootprint.html'));
-    self.close();
-    return false;
+    my_log("Here here: 'My Footprint' was clicked on", new Error);
+    self.port.emit("open-myfootprint");
 }
 
 function about() {
-    openTab('http://appu.gtnoise.net/');
-    self.close();
-    return false;
+    my_log("Here here: 'About' was clicked on", new Error);
+    self.port.emit("open-about");
 }
 
 function send_feedback() {
-    openTab(chrome.extension.getURL('feedback.html'));
-    self.close();
-    return false;
+    my_log("Here here: 'Send Feedback' was clicked on", new Error);
+    self.port.emit("open-feedback");
 }
 
 function show_menu(response) {
     my_log("Here here: show_menu(): " + response.status, new Error);
-    //$('body').css('background-color', 'green');
 
     if (response.status == "not-signed-in") {
-	//$('#sign-in-menu-list').addClass('.dropdown-menu-displayed');
 	$('#sign-in-menu').dropdown('toggle');
-	
-// 	var classList = $('#sign-in-menu-div').attr('class').split(/\s+/);
-// 	$.each( classList, function(index, item){
-// 		my_log("Here here: Class: " + item);
-// 	    });
-//	$('#sign-in-menu-list').css('display', 'block');
-//	$('#sign-in-menu-list').css('position', 'static');
-
-	//$('#sign-in-menu-list').show();
-
-	//my_log("Here here: Sending message displayed");
 
 	m = {
 	    height : $('#sign-in-menu-list').height(),
@@ -113,27 +88,14 @@ function show_menu(response) {
 	}
 
 	self.port.emit("displayed", m);
-
-	bg_response = response;
-	if (bg_response.appu_status == 'disabled') {
-	    //$("#appu-signedin-menu-icon").attr("src", "images/appu_new19_offline.png");
-	}
-	//my_log("here here 2: " + $('#sign-in-menu').dropdown);
     }
     if (response.status == "signed-in") {
 	$('#login-name').html(" " + response.login_name);
 	$('body').css('background-color', 'green');
 
-	//$('#sign-out-menu-list').css('display', 'block');
-	//$('#sign-out-menu-list').css('position', 'static');
-	//$('#sign-out-menu-list').show();
-
-	//my_log("Here here: Sending message displayed");
-
 	$('#sign-out-menu').dropdown('toggle');
 
 	$('#sign-out-menu-list').css("margin-top", "-340px");
-	//my_log("Here here: Margin top value is: " + $('#sign-out-menu-list').css("margin-top"));
 	$('#sign-out-menu').css("background-color", "orange");
 
 	m = {
@@ -143,18 +105,14 @@ function show_menu(response) {
 
 	self.port.emit("displayed", m);
 
-
 	bg_response = response;
 	if (bg_response.appu_status == 'disabled') {
 	    $("#appu-signedin-menu-icon").attr("src", "images/appu_new19_offline.png");
 	}
-	//my_log("here here 3");
     }
-    //my_log("here here 4");
 }
 
 function hook_ups() {
-    //my_log("Here here: contentloaded");
     $("#disable").on("click", function() { disable();});
     $('#disable-submit').on('click', read_minutes);
 
@@ -195,10 +153,6 @@ function activate_menu() {
 	self.port.emit("get-signin-status", {
 		'type' : 'get-signin-status',
 		    });
-	
-// 	show_menu({
-// 		status : "signed-in"
-// 		    });
 	
 	$('body').css({'max-width': '200px', 'max-height': '200px'});
 }
