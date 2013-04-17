@@ -7,6 +7,7 @@ var is_appu_active = false;
 var last_user_interaction = undefined;
 var am_i_logged_in = false;
 var pwd_pending_warn_timeout = undefined;
+var data_dir_url = undefined; 
 
 function my_log(msg, error) {
     var ln = error.lineNumber;
@@ -659,7 +660,7 @@ function is_status_active(response) {
 	message.domain = document.domain;
 	//Appu is enabled. Check if the current site is blacklisted.
 	//If not, then register for password input type.
-	self.port.emit("check_blacklist", message, is_blacklisted);
+	self.port.emit("check_blacklist", message);
 
 	// 5 seconds is just some random period to get page ready in case
 	// of Ajax apps. (for e.g. in case of gmail, the .load() is fired
@@ -980,7 +981,8 @@ function hide_appu_monitor_icon() {
 function show_appu_monitor_icon() {
     if (is_appu_active) {
 	if ($("#appu-monitor-icon").length == 0) {
-	    var appu_img_src = chrome.extension.getURL('images/appu_new19.png');
+	    var appu_img_src = data_dir_url + "images/appu_new19.png";
+	    my_log("Here here: Image url is: " + appu_img_src, new Error);
 	    var appu_img = $("<img id='appu-monitor-icon' src='" + appu_img_src + "'></img>");
 	    $("body").append(appu_img);
 	    $("#appu-monitor-icon").attr("title", "Appu is currently enabled. " + 
@@ -1041,8 +1043,6 @@ if (document.URL.match(/.pdf$/) == null) {
     //This could create problems for sites like youtube or video sites.
     //Need to check somehow if Flash is active on the current site.
     setInterval(focus_check, 300 * 1000);
-
-    
 
     self.port.emit("am_i_active", {}); 
 
@@ -1133,9 +1133,14 @@ if (document.URL.match(/.pdf$/) == null) {
 
 	self.port.on("query_status_response", is_status_active);
 
+	self.port.on("check_blacklist_response", is_blacklisted);
+
 	self.port.on("am_i_active_response", function (r) {
+		my_log("Here here: In response to AM_I_ACTIVE_RESPONSE", new Error);
 		if (r.am_i_active) {
 		    window_focused(undefined);
+		    my_log("Here here: In response to AM_I_ACTIVE_RESPONSE: " + r.data_dir_url, new Error);
+		    data_dir_url = r.data_dir_url;
 		}
 	    });
 
