@@ -939,6 +939,7 @@ function detect_if_user_logged_in() {
 }
 
 function update_status(new_status) {
+    my_log("Here here, in the status message update", new Error);
     var dialog_msg = sprintf('<div id="appu-status-update-warning" class="appuwarning" title="Appu: Status Change"><p>%s</p><br/>%s</div>', new_status, new Date());
 	var dialog_element = $(dialog_msg);
 	$("#appu-status-update-warning").remove();
@@ -957,6 +958,8 @@ function update_status(new_status) {
 	    position : [window.innerWidth - 100, window.innerHeight - 220],
 	    hide: { effect: 'drop', direction: "down" },
 	    open : function (event, ui) {
+		    //my_log("Here here: width, height: " + document.body.scrollLeft + ", " + document.body.scrollTop,
+		    //	   new Error);
 		$('#appu-status-update-warning')
 		    .dialog("option", "position", [
 			window.innerWidth - $('#appu-status-update-warning').width(), 
@@ -975,16 +978,29 @@ function update_status(new_status) {
 }
 
 function hide_appu_monitor_icon() {
+    my_log("Here here: " + window.location + " HIDE MONITOR called: ", new Error);
     $("#appu-monitor-icon").hide();
 }
 
+function my_test() {
+    my_log("Here here: " + window.location + " MY_TEST called: " + $("#appu-monitor-icon").is(":visible"), new Error);
+    my_log("Here here: $('#appu-monitor-icon') " + window.location + " MY_TEST called: " + $('#appu-monitor-icon').length, new Error);
+    my_log("Here here: MY_TEST called: " + $("#appu-monitor-icon").parent().prop("tagName"), new Error);
+}
+
 function show_appu_monitor_icon() {
+    my_log("Here here: SHOW MONITOR called", new Error);
     if (is_appu_active) {
 	if ($("#appu-monitor-icon").length == 0) {
+	    my_log("Here here: SHOW MONITOR called", new Error);
 	    var appu_img_src = data_dir_url + "images/appu_new19.png";
 	    my_log("Here here: Image url is: " + appu_img_src, new Error);
 	    var appu_img = $("<img id='appu-monitor-icon' src='" + appu_img_src + "'></img>");
+	    my_log("Here here: SHOW MONITOR called", new Error);
 	    $("body").append(appu_img);
+	    var kk = $("#appu-monitor-icon");
+	    my_test();
+	    setTimeout(my_test, 60000);
 	    $("#appu-monitor-icon").attr("title", "Appu is currently enabled. " + 
 					 "You can disable it from Appu-Menu > Disable Appu")
 	}
@@ -1057,12 +1073,14 @@ if (document.URL.match(/.pdf$/) == null) {
 		show_report_ready_modal_dialog();
 	    });
 	self.port.on("status-enabled", function(message) {
+		my_log("Here here, got message status-enabled", new Error);
 		my_log("APPU DEBUG: status-enabled", new Error);
 		is_appu_active = true;
 		show_appu_monitor_icon();
 		update_status('Appu is enabled');
 	    });
 	self.port.on("status-disabled", function(message) {
+		my_log("Here here, got message status-disabled", new Error);
 		my_log("APPU DEBUG: status-disabled", new Error);
 		is_appu_active = false;
 		hide_appu_monitor_icon();
