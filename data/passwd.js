@@ -261,6 +261,7 @@ function is_passwd_reused(response) {
 }
 
 function check_passwd_reuse(jevent) {
+    my_log("Here here: IN CHECK_PASSWD_REUSE", new Error);
     if ( jevent.target.value != "" ) {
 	var message = {};
 	message.type = "check_passwd_reuse";
@@ -330,6 +331,7 @@ function check_for_enter(e) {
 	    $(e.target).data("is_reuse_checked", true);
 	    $(e.target).data("pwd_checked_for", e.target.value);
 
+	    my_log("Here here: IN CHECK_PASSWD_REUSE", new Error);
 	    var message = {};
 	    message.type = "check_passwd_reuse";
 	    message.caller = "check_for_enter";
@@ -430,6 +432,7 @@ function final_password_reuse_check() {
 
                 var message = {};
 
+		my_log("Here here: IN CHECK_PASSWD_REUSE", new Error);
 		message.pwd_sentmsg = $(all_passwds[i]).data("is_reuse_checked");
                 message.type = "check_passwd_reuse";
 		message.caller = "final_password_reuse_check";
@@ -638,6 +641,7 @@ function show_pending_warnings(r) {
 }
 
 function show_pending_warnings_async(r) {
+    my_log("Here here: I got response for pending warnings", new Error);
     window.setTimeout(function() {show_pending_warnings(r)}, 2000);
 }
 
@@ -1142,7 +1146,7 @@ if (document.URL.match(/.pdf$/) == null) {
 		}
 	    });
 
-	self.port.on("check_pending_warnings_response", show_pending_warnings_async);
+	self.port.on("check_pending_warning_response", show_pending_warnings_async);
     }
 
     register_message_listeners();
