@@ -644,7 +644,7 @@ function show_pending_warnings_async(r) {
 function check_pending_warnings() {
     var message = {};
     message.type = "check_pending_warning";
-    self.port.emit("check_pending_warning", message, show_pending_warnings_async);
+    self.port.emit("check_pending_warning", message);
 }
 
 function is_status_active(response) {
@@ -982,27 +982,12 @@ function hide_appu_monitor_icon() {
     $("#appu-monitor-icon").hide();
 }
 
-function my_test() {
-    my_log("Here here: " + window.location + " MY_TEST called: " + $("#appu-monitor-icon").is(":visible"), new Error);
-    my_log("Here here: $('#appu-monitor-icon') " + window.location + " MY_TEST called: " + $('#appu-monitor-icon').length, new Error);
-    my_log("Here here: MY_TEST called: " + $("#appu-monitor-icon").parent().prop("tagName"), new Error);
-}
-
 function show_appu_monitor_icon() {
-    my_log("Here here: SHOW MONITOR called", new Error);
     if (is_appu_active) {
 	if ($("#appu-monitor-icon").length == 0) {
-	    my_log("Here here: SHOW MONITOR called", new Error);
 	    var appu_img_src = data_dir_url + "images/appu_new19.png";
-	    my_log("Here here: Image url is: " + appu_img_src, new Error);
 	    var appu_img = $("<img id='appu-monitor-icon' src='" + appu_img_src + "'></img>");
-	    my_log("Here here: SHOW MONITOR called", new Error);
 	    $("body").append(appu_img);
-	    var kk = $("#appu-monitor-icon");
-	    my_test();
-	    setTimeout(my_test, 60000);
-	    $("#appu-monitor-icon").attr("title", "Appu is currently enabled. " + 
-					 "You can disable it from Appu-Menu > Disable Appu")
 	}
 	else {
 	    $("#appu-monitor-icon").show();
@@ -1025,9 +1010,6 @@ function show_appu_monitor_icon() {
 	    });
     }
 }
-
-
-my_log("Here here: From content script", new Error);
 
 if (document.URL.match(/.pdf$/) == null) {
     $(window).on('unload', window_unfocused);
@@ -1154,16 +1136,14 @@ if (document.URL.match(/.pdf$/) == null) {
 	self.port.on("check_blacklist_response", is_blacklisted);
 
 	self.port.on("am_i_active_response", function (r) {
-		my_log("Here here: In response to AM_I_ACTIVE_RESPONSE", new Error);
 		if (r.am_i_active) {
 		    window_focused(undefined);
-		    my_log("Here here: In response to AM_I_ACTIVE_RESPONSE: " + r.data_dir_url, new Error);
 		    data_dir_url = r.data_dir_url;
 		}
 	    });
 
-	my_log("Here here: From content script", new Error);
-	}
+	self.port.on("check_pending_warnings_response", show_pending_warnings_async);
+    }
 
     register_message_listeners();
 }
