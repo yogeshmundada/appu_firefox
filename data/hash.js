@@ -1,9 +1,9 @@
 
-function my_log(msg, error) {
-    var ln = error.lineNumber;
-    var fn = error.fileName.split('->').slice(-1)[0].split('/').splice(-1)[0];
-    console.log(fn + "," + ln + ": " + msg);
-}
+// function my_log(msg, error) {
+//     var ln = error.lineNumber;
+//     var fn = error.fileName.split('->').slice(-1)[0].split('/').splice(-1)[0];
+//     console.log(fn + "," + ln + ": " + msg);
+// }
 
 function include_thirdparty(lib_name) {
     const { Cc, Ci } = require("chrome");
@@ -39,7 +39,7 @@ function calculate_hash(pwd, limit) {
 
 self.postMessage("Invoked hashing worker");
 self.onmessage = function(event) {
-    my_log("Here here: Answer is: ", new Error);
+    //my_log("Here here: Answer is: ", new Error);
     var msg = event.data;
     if (msg.cmd == "hash") {
 	rc = calculate_hash(msg.pwd, msg.limit);
@@ -53,4 +53,4 @@ self.onmessage = function(event) {
     self.close();
 };
 
-console.log("Here here: I AM IN THE HASH");
+//console.log("Here here: I AM IN THE HASH");
