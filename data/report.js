@@ -1,4 +1,10 @@
 
+function my_log(msg, error) {
+    var ln = error.lineNumber;
+    var fn = error.fileName.split('->').slice(-1)[0].split('/').splice(-1)[0];
+    console.log(fn + "," + ln + ": " + msg);
+}
+
 var current_report = undefined;
 var current_report_number = undefined;
 //Whether deletion is enabled for this report.
@@ -93,14 +99,11 @@ function openTab(url) {
 
 function print_text_report() {
     console.log("APPU DEBUG: In print_text_report():" + new Date());
-    chrome.tabs.create({ url: 'text_report.html' }, function (tab) {
-	// Send which report to show to background.js
-	chrome.extension.sendMessage("", {
+    self.port.emit("show-text-report", {
 	    'type' : 'show-text-report',
 	    'tabid' : tab.id,
 	    'reportnumber': current_report_number,
 	});
-    });
 }
 
 function expand_persite_account_table() {
@@ -624,7 +627,7 @@ function send_report() {
     var message = {};
     message.type = "report_user_approved";
     message.report_number = current_report_number;
-    chrome.extension.sendMessage("", message);
+    self.port.emit("report_user_approved", message);
     
     //Give confirmation to user
     
@@ -728,7 +731,7 @@ function delete_table_entry(table_name, entry_key, dtTable, row_pos) {
     message.table_name = table_name;
     message.report_number = current_report_number;
     message.entry_key = entry_key;
-    chrome.extension.sendMessage("", message);
+    self.port.emit("delete_entry", message);
 
     current_report.report_modified = "yes";
     $("#report-modified-div span b").text(current_report.report_modified);
@@ -783,7 +786,7 @@ function window_unfocused(eo) {
 	var message = {};
 	message.type = "report_time_spent";
 	message.time_spent = total_focus_time;
-	chrome.extension.sendMessage("", message);
+	self.port.emit("report_time_spent", message);
 	console.log("Here here: Sending message the report-tab is unfocused");
     }
 }
@@ -793,9 +796,8 @@ function request_report_number(report_number, do_render) {
     report_number = Number(report_number);
     message.type = "get_report_by_number";
     message.report_number = report_number;
-    chrome.extension.sendMessage("", message, function(report) {
-	report_received(report_number, report, do_render);
-    });
+    message.do_render = do_render;
+    self.port.emit("get_report_by_number", message);
 }
 
 $(window).on("focus", window_focused);
@@ -1081,30 +1083,32 @@ document.addEventListener('DOMContentLoaded', function () {
 	"sWrapper": "dataTables_wrapper form-inline"
     } );
 
-    var message = {};
-    message.type = "report_tab_opened";
-    chrome.extension.sendMessage("", message);
-
+    self.port.emit("report_tab_opened", {});
 });
 
 $(window).on("unload", function() {
     window_unfocused();
-    var message = {};
-    message.type = "report_tab_closed";
-    chrome.extension.sendMessage("", message);
+    self.port.emit("report_tab_closed", {});
 });
 
-chrome.extension.onMessage.addListener(function(message, sender, send_response) {
-    //Check if current report number is 1. No point in changing otherwise.
-    if (message.type == "report-table-change-row" && 1 == current_report_number) {
-	modify_tables(message.table_name, message.mod_type, message.changed_row);
-	//Request updated copy of the report. No need to render it.
-	request_report_number(current_report_number, false);
-    }
-    else if (message.type == "report-table-change-table" && 1 == current_report_number) {
-	//This is to reconstruct an entire table.
-	reconstruct_table(message);
-	//Request updated copy of the report. No need to render it.
-	request_report_number(current_report_number, false);
-    }
-});
+function register_message_listeners() {
+    self.port.on("report-table-change-row", function (message) {
+	    if (1 == current_report_number) {
+		modify_tables(message.table_name, message.mod_type, message.changed_row);
+		//Request updated copy of the report. No need to render it.
+		request_report_number(current_report_number, false);
+	    }
+	});
+    self.port.on("report-table-change-table", function (message) {
+	    //This is to reconstruct an entire table.
+	    reconstruct_table(message);
+	    //Request updated copy of the report. No need to render it.
+	    request_report_number(current_report_number, false);
+	});
+
+    self.port.on("get_report_by_number_response", function (report) {
+	    report_received(report.report_number, report, report.do_render);
+	});
+}
+
+register_message_listeners();
