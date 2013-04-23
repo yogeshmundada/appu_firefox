@@ -531,6 +531,7 @@ function report_received(report_number, report, do_render) {
 								'strength',
 							    ]);
     dtTable = $('#password-stats-table').dataTable();
+    my_log("Here here: Pwd Stats: " + JSON.stringify(pst_records), new Error);
     dtTable.fnAddData(pst_records);
     $("#password-stats-table_length select").val('5').trigger('change');
 
@@ -932,7 +933,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		"aTargets" : [2], 
 		"mRender": function(data, type, full) {
 		    //Data is supposed to be a string of type "entropy, crack_time, crack_time_display"
-		    return data.split(",")[0];
+		    //my_log("Here here: Data: " + JSON.stringify(data) + ", " + typeof(data) + ", " + Object.keys(data), new Error);
+		    //console.log("Here here: Data: " + JSON.stringify(data));
+		    return data[0];
+		    //return data.split(",")[0];
 		}
 	    },
 	    { 
@@ -941,12 +945,15 @@ document.addEventListener('DOMContentLoaded', function () {
 		    //Data is supposed to be a string of type "entropy, crack_time, crack_time_display"
 		    if (type === "display") {
 			//return crack time display
+			return data[2];
 			return data.split(",")[2];
 		    }
 		    if (type === "sort") {
 			//return crack time display
+			return data[1];
 			return data.split(",")[1];
 		    }
+		    return data[2];
 		    return data.split(",")[2];
 		}
 	    },
